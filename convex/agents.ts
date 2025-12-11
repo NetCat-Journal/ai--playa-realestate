@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const addAgent = mutation({
@@ -18,5 +18,22 @@ export const addAgent = mutation({
             photo: args.photo,
         });
         return agentId;
+    }
+})
+
+export const getAgents = query({
+    handler: async (ctx) => {
+        const agents = await ctx.db.query("agents").collect();
+        return agents;
+    }
+})
+
+export const getAgentById = query({
+    args: {
+        agentId: v.id("agents"),
+    },
+    handler: async (ctx, args) => {
+        const agent = await ctx.db.get(args.agentId);
+        return agent;
     }
 })

@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 export const addProperty = mutation({
@@ -43,5 +43,69 @@ export const addProperty = mutation({
             updatedAt: Date.now(),
         })
         return propertyId;
+    }
+})
+
+export const getProperties = query({
+    handler: async (ctx) => {
+        const properties = await ctx.db.query("properties").collect();
+        return properties;
+    }
+})
+
+export const getPropertiesById = query({
+    args: {
+        propertyId: v.id("properties"),
+    },
+    handler: async (ctx, args) => {
+        const property = await ctx.db.get(args.propertyId);
+        return property;
+    }
+})
+
+export const getPropertiesByStatus = query({
+    args: {
+        status: v.string(),
+    },
+    handler: async (ctx, args) => {
+        const propertiesByStatus = await ctx.db.query("properties").filter((q) => q.eq(q.field("status"), args.status)).collect();
+        return propertiesByStatus;
+    }
+})
+
+
+export const updateProperty = mutation({
+    args: {
+        propertyId: v.id("properties"),
+        price: v.optional(v.number()),
+        title_es: v.optional(v.string()),
+        title_en: v.optional(v.string()),
+        description_es: v.optional(v.string()),
+        description_en: v.optional(v.string()),
+        photos: v.optional(v.array(v.string())),
+        features: v.optional(v.array(v.string())),
+    },
+    handler: async (ctx, args) => {
+        const updatedProperty = await ctx.db.patch(args.propertyId, {
+            price: args.price,
+            title_es: args.title_es,
+            title_en: args.title_en,
+            description_es: args.description_es,
+            description_en: args.description_en,
+            photos: args.photos,
+            features: args.features,
+            updatedAt: Date.now(),
+        });
+        return updatedProperty;
+    }
+})
+
+export const deleteProperty = mutation({
+    args: {
+        propertyId: v.id("properties"),
+    },
+    handler: async (ctx, args) => {
+        await ctx.db.delete(args.propertyId);
+        return true;
     }
 })

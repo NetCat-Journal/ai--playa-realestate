@@ -13,14 +13,13 @@ export default defineSchema({
         size: v.number(),
         type: v.string(), // (apartment, house, villa, etc.)
         address: v.string(),
-        neighborhood: v.string(),
-        distanceToBeach: v.number(),
+        neighborhood: v.optional(v.string()),
+        distanceToBeach: v.optional(v.number()),
         coordinates: v.object({ lat: v.number(), lng: v.number() }), //(lat/lng)
         photos: v.array(v.string()), // array of photo URLs
         features: v.array(v.string()), // (pool, garden, garage, etc.)
         status: v.string(), //(available/sold/rented)
         agentId: v.id("agents"),  //references Agent
-        _creationTime: v.number(),
         updatedAt: v.number(),
     })
         .index("by_status", ["status"]) // Fast queries by status

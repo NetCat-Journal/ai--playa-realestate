@@ -84,28 +84,33 @@ export const updateProperty = mutation({
         description_en: v.optional(v.string()),
         photos: v.optional(v.array(v.string())),
         features: v.optional(v.array(v.string())),
+        status: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
-        const updatedProperty = await ctx.db.patch(args.propertyId, {
-            price: args.price,
-            title_es: args.title_es,
-            title_en: args.title_en,
-            description_es: args.description_es,
-            description_en: args.description_en,
-            photos: args.photos,
-            features: args.features,
+        const updates: any = {
             updatedAt: Date.now(),
-        });
-        return updatedProperty;
+        };
+
+        if (args.price !== undefined) updates.price = args.price;
+        if (args.status !== undefined) updates.status = args.status;
+        if (args.title_es !== undefined) updates.title_es = args.title_es;
+        if (args.title_en !== undefined) updates.title_en = args.title_en;
+        if (args.description_es !== undefined) updates.description_es = args.description_es;
+        if (args.description_en !== undefined) updates.description_en = args.description_en;
+        if (args.photos !== undefined) updates.photos = args.photos;
+        if (args.features !== undefined) updates.features = args.features;
+
+        await ctx.db.patch(args.propertyId, updates);
+        return args.propertyId;
     }
 })
 
 export const deleteProperty = mutation({
     args: {
-        propertyId: v.id("properties"),
+        id: v.id("properties"),
     },
     handler: async (ctx, args) => {
-        await ctx.db.delete(args.propertyId);
+        await ctx.db.delete(args.id);
         return true;
     }
 })

@@ -1,9 +1,12 @@
 'use client';
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
+import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 
 function Properties() {
     const properties = useQuery(api.properties.getProperties);
+    const deleteProperty = useMutation(api.properties.deleteProperty);
+
     if (properties === undefined) {
         return <div>Loading...</div>;
     }
@@ -11,6 +14,20 @@ function Properties() {
     if (properties.length === 0) {
         return <div>No properties yet</div>;
     }
+
+    const deletePropertyHandler = async (id: Id<"properties">) => {
+        if (!confirm("Are you sure you want to delete this property?")) {
+            return;
+        }
+        try {
+            await deleteProperty({ id });
+        }
+        catch (err) {
+            console.error("Failed to delete property:", err);
+        }
+        alert("Delete property functionality to be implemented");
+    }
+
     return (
         <div>
             <h1>All properties</h1>
@@ -27,6 +44,9 @@ function Properties() {
                             <p>Type: {p.type}</p>
                             <p>Address: {p.address}</p>
                             <p>Status: {p.status}</p>
+                            <div>
+                                <button onClick={(e) => deletePropertyHandler(p._id)}>Delete Property</button>
+                            </div>
                         </div>
                     )
                 })}

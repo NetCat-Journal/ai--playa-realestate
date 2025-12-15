@@ -2,6 +2,7 @@
 import { useQuery, useMutation } from "convex/react";
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
+import Link from "next/link";
 
 function Properties() {
     const properties = useQuery(api.properties.getProperties);
@@ -47,6 +48,9 @@ function Properties() {
                             <div>
                                 <button onClick={(e) => deletePropertyHandler(p._id)}>Delete Property</button>
                             </div>
+                            <Link href={`/admin/properties/${p._id}/edit}`}>
+                                <button>Edit</button>
+                            </Link>
                         </div>
                     )
                 })}

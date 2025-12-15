@@ -77,28 +77,46 @@ export const getPropertiesByStatus = query({
 export const updateProperty = mutation({
     args: {
         propertyId: v.id("properties"),
-        price: v.optional(v.number()),
         title_es: v.optional(v.string()),
         title_en: v.optional(v.string()),
         description_es: v.optional(v.string()),
         description_en: v.optional(v.string()),
+        price: v.optional(v.number()),
+        bedrooms: v.optional(v.number()),
+        bathrooms: v.optional(v.number()),
+        size: v.optional(v.number()),
+        type: v.optional(v.string()),
+        address: v.optional(v.string()),
+        neighborhood: v.optional(v.string()),
+        distanceToBeach: v.optional(v.number()),
+        coordinates: v.optional(v.object({ lat: v.number(), lng: v.number() })),
         photos: v.optional(v.array(v.string())),
         features: v.optional(v.array(v.string())),
         status: v.optional(v.string()),
+        agentId: v.optional(v.id("agents")),
     },
     handler: async (ctx, args) => {
         const updates: any = {
             updatedAt: Date.now(),
         };
 
-        if (args.price !== undefined) updates.price = args.price;
-        if (args.status !== undefined) updates.status = args.status;
         if (args.title_es !== undefined) updates.title_es = args.title_es;
         if (args.title_en !== undefined) updates.title_en = args.title_en;
         if (args.description_es !== undefined) updates.description_es = args.description_es;
         if (args.description_en !== undefined) updates.description_en = args.description_en;
+        if (args.price !== undefined) updates.price = args.price;
+        if (args.bedrooms !== undefined) updates.bedrooms = args.bedrooms;
+        if (args.bathrooms !== undefined) updates.bathrooms = args.bathrooms;
+        if (args.size !== undefined) updates.size = args.size;
+        if (args.type !== undefined) updates.type = args.type;
+        if (args.address !== undefined) updates.address = args.address;
+        if (args.neighborhood !== undefined) updates.neighborhood = args.neighborhood;
+        if (args.distanceToBeach !== undefined) updates.distanceToBeach = args.distanceToBeach;
+        if (args.coordinates !== undefined) updates.coordinates = args.coordinates;
         if (args.photos !== undefined) updates.photos = args.photos;
         if (args.features !== undefined) updates.features = args.features;
+        if (args.status !== undefined) updates.status = args.status;
+        if (args.agentId !== undefined) updates.agentId = args.agentId;
 
         await ctx.db.patch(args.propertyId, updates);
         return args.propertyId;

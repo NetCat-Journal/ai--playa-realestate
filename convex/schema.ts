@@ -21,9 +21,11 @@ export default defineSchema({
         status: v.string(), //(available/sold/rented)
         agentId: v.id("agents"),  //references Agent
         updatedAt: v.number(),
+        createdBy: v.optional(v.string()),
     })
         .index("by_status", ["status"]) // Fast queries by status
-        .index("by_agent", ["agentId"]), // Fast queries by agent
+        .index("by_agent", ["agentId"]) // Fast queries by agent
+        .index("by_creator", ["createdBy"]), // Fast queries by creator
 
     agents: defineTable({
         name: v.string(),

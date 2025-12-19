@@ -20,8 +20,13 @@ export const addProperty = mutation({
         features: v.array(v.string()),
         status: v.string(),
         agentId: v.id("agents"),
+        createdBy: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("Must be signed in to add properties");
+        }
         const propertyId = await ctx.db.insert("properties", {
             title_es: args.title_es,
             title_en: args.title_en,
@@ -41,6 +46,7 @@ export const addProperty = mutation({
             status: args.status,
             agentId: args.agentId,
             updatedAt: Date.now(),
+            createdBy: identity.subject,
         })
         return propertyId;
     }
@@ -94,11 +100,16 @@ export const updateProperty = mutation({
         features: v.optional(v.array(v.string())),
         status: v.optional(v.string()),
         agentId: v.optional(v.id("agents")),
+        createdBy: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
         const updates: any = {
             updatedAt: Date.now(),
         };
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("Must be signed in to update properties");
+        }
 
         if (args.title_es !== undefined) updates.title_es = args.title_es;
         if (args.title_en !== undefined) updates.title_en = args.title_en;
@@ -128,6 +139,10 @@ export const deleteProperty = mutation({
         id: v.id("properties"),
     },
     handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("Must be signed in to delete properties");
+        }
         await ctx.db.delete(args.id);
         return true;
     }

@@ -9,7 +9,7 @@ const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!)
 
 export function Providers({ children }: { children: ReactNode }) {
     return (
-        <ClerkProvider signInFallbackRedirectUrl="/dashboard"
+        <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!} signInFallbackRedirectUrl="/dashboard"
             signUpFallbackRedirectUrl="/dashboard">
             <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
                 {children}

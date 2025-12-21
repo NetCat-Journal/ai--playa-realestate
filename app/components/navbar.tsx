@@ -5,7 +5,10 @@ import { useUser } from '@clerk/nextjs'
 function Navbar() {
     const { isSignedIn, user, isLoaded } = useUser()
     return (
-        <div> {!isSignedIn ? <div> <SignInButton />  <SignUpButton />  </div> : <SignOutButton />}</div>
+        <div className="flex flex-row justify-between items-center w-full">
+            <div>Logo</div>
+            <div> {!isSignedIn ? <div> <SignInButton />  <SignUpButton />  </div> : <SignOutButton />}</div>
+        </div>
     )
 }
 

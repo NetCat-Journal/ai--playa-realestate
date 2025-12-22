@@ -37,3 +37,12 @@ export const getAgentById = query({
         return agent;
     }
 })
+
+export const deleteAgent = mutation({
+    args: {
+        id: v.id("agents"),
+    },
+    handler: async (ctx, args) => {
+        await ctx.db.delete(args.id);
+    }
+})  

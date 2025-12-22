@@ -10,6 +10,10 @@ export const addAgent = mutation({
         photo: v.optional(v.string()),
     },
     handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("Must be signed in to add agents");
+        }
         const agentId = await ctx.db.insert("agents", {
             name: args.name,
             email: args.email,

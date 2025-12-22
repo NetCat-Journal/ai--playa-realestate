@@ -8,6 +8,7 @@ function AdminPage() {
                 <Link href={'admin/properties'} className="text-blue-600 hover:underline">View Properties</Link>
                 <Link href={'admin/properties/add'} className="text-blue-600 hover:underline">Add Properties</Link>
                 <Link href={'admin/agents'} className="text-blue-600 hover:underline">View Agents</Link>
+                <Link href={'admin/agents/add'} className="text-blue-600 hover:underline">Add Agent</Link>
             </div>
         </div>
     )

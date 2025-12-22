@@ -2,6 +2,7 @@
 import { useQuery, useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel";
+import Link from "next/link";
 
 function Agents() {
     const agents = useQuery(api.agents.getAgents);
@@ -31,8 +32,17 @@ function Agents() {
             {agents.map(a => {
                 return (
                     <div>
-                        <div key={a._id}>{a.name} - {a.email}</div>
+                        <div key={a._id}>
+                            <h1>{a.name}</h1>
+                            <p>{a.phone}</p>
+                            <p>{a.email}</p>
+                            <p>{a.photo}</p>
+                            <p>{a.whatsapp}</p>
+                        </div>
                         <button onClick={(e) => deleteAgentHandler(a._id)}>Delete agent</button>
+                        <Link href={`/admin/agents/${a._id}/edit}`}>
+                            <button>Edit</button>
+                        </Link>
                     </div>
                 )
             })}

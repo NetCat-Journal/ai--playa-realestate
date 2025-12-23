@@ -25,6 +25,33 @@ export const addAgent = mutation({
     }
 })
 
+export const editAgent = mutation({
+    args: {
+        agentId: v.id("agents"),
+        name: v.optional(v.string()),
+        email: v.optional(v.string()),
+        phone: v.optional(v.string()),
+        whatsapp: v.optional(v.string()),
+        photo: v.optional(v.string()),
+    },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("Must be signed in to edit agents");
+        }
+        const updates: any = {};
+
+        if (args.name !== undefined) updates.name = args.name;
+        if (args.email !== undefined) updates.email = args.email;
+        if (args.phone !== undefined) updates.phone = args.phone;
+        if (args.whatsapp !== undefined) updates.whatsapp = args.whatsapp;
+        if (args.photo !== undefined) updates.photo = args.photo;
+
+        await ctx.db.patch(args.agentId, updates);
+        return args.agentId;
+    }
+})
+
 export const getAgents = query({
     handler: async (ctx) => {
         const agents = await ctx.db.query("agents").collect();

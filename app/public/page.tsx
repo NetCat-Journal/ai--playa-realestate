@@ -1,5 +1,6 @@
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import Property from "../components/property";
 
 function PublicPage() {
     const results = useQuery(api.properties.getPropertiesByStatus, { status: "available" });
@@ -12,7 +13,7 @@ function PublicPage() {
         return <div>No available properties</div>;
     }
     return (
-        <div>{results.map(p => p.address)}</div>
+        <div>{results.map(p => (<Property key={p._id} property={p} />))}</div>
     )
 }
 

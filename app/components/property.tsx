@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 
 interface PropertyProps {
     property: any;
@@ -5,7 +7,15 @@ interface PropertyProps {
 
 function Property({ property }: PropertyProps) {
     return (
-        <div>{property.address}</div>
+        <div>
+            <div>{property.address}</div>
+            <div>
+                <Image src="/img/whats-app-icon.svg" alt="WhatsApp"
+                    width={24}
+                    height={24} />
+            </div>
+        </div>
+
     )
 }
 

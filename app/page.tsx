@@ -10,7 +10,7 @@ export default function Home() {
   const { isSignedIn, user, isLoaded } = useUser()
   return (
     <div className="w-full h-screen">
-      <div className="max-w-7xl p-8 flex flex-col justify-center items-center m-auto">
+      <div className="p-8 flex flex-col justify-center items-center m-auto">
         <Navbar />
         {isSignedIn && isLoaded && user && (
           <h1>

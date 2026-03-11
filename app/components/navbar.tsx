@@ -1,4 +1,5 @@
 'use client';
+import { useState } from "react";
 import { SignInButton, SignOutButton, SignUpButton } from "@clerk/nextjs";
 import { useUser } from '@clerk/nextjs';
 import {
@@ -10,10 +11,13 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
+import { translations } from '../lib/translations';
 
 function Navbar() {
-    const { isSignedIn } = useUser()
+    const { isSignedIn } = useUser();
+    const [language, setLanguage] = useState<'en' | 'es'>('en');
+    const t = translations[language].hero;
 
     return (
         <div className="flex flex-row justify-between items-center w-full bg-white/80 p-4 z-10">

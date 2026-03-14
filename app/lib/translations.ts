@@ -12,10 +12,10 @@ export const translations = {
             subtitle: "Properties"
         },
         hero: {
-            headline1: "Discover Your Dream Home in",
-            headline2: "RIVIERA MAYA",
+            headline1: "Riviera Maya",
+            headline2: "Exclusive Beachfront Living",
             subtitle: "Exclusive beachfront villas • Expert local guidance • Your Caribbean paradise awaits",
-            searchButton: "Search"
+            searchButton: "Schedule Private Tour"
         },
         // ... more sections
     },
